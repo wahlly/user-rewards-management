@@ -16,7 +16,13 @@
     "test:integration": "jest --selectProjects integration",
     "test:e2e": "jest --selectProjects e2e",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage --passWithNoTests"
+    "test:cov": "jest --coverage --passWithNoTests",
+    "typeorm": "npm run build && npx typeorm -d dist/modules/utils/data.source.js",
+    "migration:generate": "npm run typeorm -- migration:generate src/migrations/mysql/$npm_config_name",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:show": "npm run typeorm -- migration:show",
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "migration:create": "npm run build && npx typeorm migration:create src/migrations/mysql/$npm_config_name"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.6",
