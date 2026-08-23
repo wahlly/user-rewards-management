@@ -25,6 +25,7 @@ export class PaymentsService {
 
       transfer = await this.transferRepository.save({
         cashback,
+        amount,
         recipientCode
       });
 

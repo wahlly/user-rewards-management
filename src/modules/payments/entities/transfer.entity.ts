@@ -10,6 +10,9 @@ export class TransferEntity {
   @JoinColumn({ name: 'cashback' })
   cashback: CashbackEntity;
 
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  amount: number;
+
   @Column({ name: 'recipient_code' })
   recipientCode: string;
 
