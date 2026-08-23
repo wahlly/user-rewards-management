@@ -64,6 +64,7 @@ describe('Badge Unlock Flow (Integration)', () => {
       ],
     }).compile();
 
+    await module.init();
     purchasesService = module.get<PurchasesService>(PurchasesService);
   });
 

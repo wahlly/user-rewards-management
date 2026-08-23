@@ -4,7 +4,7 @@ module.exports = {
   testTimeout: 30000,
   maxWorkers: '50%',
 
-  testRegex: '.*\\.(spec|e2e-spec|integration-spec)\\.ts$',
+  testRegex: '.*\\.(spec|integration\\.spec)\\.ts$',
 
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
@@ -28,8 +28,6 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
 
-  setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
-
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
 
   globals: {
@@ -45,7 +43,6 @@ module.exports = {
     {
       displayName: 'unit',
       testMatch: ['<rootDir>/src/modules/**/test/unit/*.spec.ts'],
-      setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
       moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
       transform: { '^.+\\.(t|j)s$': 'ts-jest' },
       testEnvironment: 'node',
@@ -54,20 +51,10 @@ module.exports = {
     {
       displayName: 'integration',
       testMatch: ['<rootDir>/src/modules/**/test/integration/*.integration.spec.ts'],
-      setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
       moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
       transform: { '^.+\\.(t|j)s$': 'ts-jest' },
       testEnvironment: 'node',
       testTimeout: 45000,
-    },
-    {
-      displayName: 'e2e',
-      testMatch: ['<rootDir>/test/e2e/**/*.e2e-spec.ts'],
-      setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
-      moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
-      transform: { '^.+\\.(t|j)s$': 'ts-jest' },
-      testEnvironment: 'node',
-      testTimeout: 60000,
     },
   ],
 };

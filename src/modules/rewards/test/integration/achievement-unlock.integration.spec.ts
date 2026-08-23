@@ -64,6 +64,7 @@ describe('Achievement Unlock Flow (Integration)', () => {
       ],
     }).compile();
 
+    await module.init();  //triggers onmoduleinit, load all event subscribers
     purchasesService = module.get<PurchasesService>(PurchasesService);
   });
 
