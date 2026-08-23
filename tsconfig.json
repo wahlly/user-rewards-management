@@ -25,6 +25,7 @@
       "@/events/*": ["src/events/*"],
       "@/config/*": ["src/config/*"]
     },
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["jest", "node"]
   }
 }

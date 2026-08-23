@@ -44,7 +44,7 @@ module.exports = {
   projects: [
     {
       displayName: 'unit',
-      testMatch: ['<rootDir>/test/unit/**/*.spec.ts'],
+      testMatch: ['<rootDir>/src/modules/**/test/*.spec.ts'],
       setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
       moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
       transform: { '^.+\\.(t|j)s$': 'ts-jest' },
@@ -53,7 +53,7 @@ module.exports = {
     },
     {
       displayName: 'integration',
-      testMatch: ['<rootDir>/test/integration/**/*.integration-spec.ts'],
+      testMatch: ['<rootDir>/src/modules/**/test/*.integration-spec.ts'],
       setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
       moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
       transform: { '^.+\\.(t|j)s$': 'ts-jest' },
