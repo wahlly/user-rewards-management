@@ -10,7 +10,7 @@ export class UserAchievementEntity {
   @JoinColumn({ name: 'user' })
   user: User;
 
-  @Column()
+  @Column({ name: 'achievement_name' })
   achievementName: string;
 
  @CreateDateColumn({ name: 'created_at' })

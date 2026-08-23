@@ -1,14 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { PaymentsService } from '../../payments/services/payments.service';
+import { CashbackService } from '../services/cashback.service';
 import { BadgeUnlockedEvent } from '../events/badge-unlocked.event';
 
 @Injectable()
 export class BadgeUnlockedListener {
-  constructor(private readonly paymentsService: PaymentsService) {}
+  private readonly logger = new Logger(BadgeUnlockedListener.name);
+
+  constructor(private readonly cashbackService: CashbackService) {}
 
   @OnEvent('badge.unlocked')
   async handleBadgeUnlocked(event: BadgeUnlockedEvent): Promise<void> {
-    // await this.paymentsService.sendCashback(event.user, 300);
+    this.logger.log(`[BadgeUnlockedListener] Badge "${event.badgeName}" unlocked for ${event.user.email} — initiating cashback`);
+    await this.cashbackService.processCashback(event.user, event.badgeName, 300);
   }
 }

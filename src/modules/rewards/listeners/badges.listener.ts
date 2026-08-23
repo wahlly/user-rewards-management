@@ -27,8 +27,7 @@ export class BadgesListener {
         );
       }
     } catch (error) {
-      console.log("Error handling event->achievement.unlocked: ", error)
-      throw error;
+      console.error('[BadgesListener] Error handling achievement.unlocked:', error);
     }
   }
 }

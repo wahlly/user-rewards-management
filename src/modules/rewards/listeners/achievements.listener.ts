@@ -30,7 +30,6 @@ export class AchievementsListener {
     }
     catch (error) {
       console.log("Error handling event->purchase.created: ", error)
-      throw error;
     }
   }
 }

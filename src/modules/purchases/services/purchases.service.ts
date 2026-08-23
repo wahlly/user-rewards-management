@@ -18,7 +18,7 @@ export class PurchasesService {
   async createPurchase(email: string, amount: number): Promise<PurchaseEntity> {
     const user = await this.usersService.findByEmail(email);
 
-    const existingCount = await this.purchaseRepository.count({
+    const purchasesCount = await this.purchaseRepository.count({
       where: { user: { id: user.id } },
     });
 
@@ -26,7 +26,7 @@ export class PurchasesService {
 
     this.eventEmitter.emit(
       'purchase.created',
-      new PurchaseCreatedEvent(user, existingCount + 1),
+      new PurchaseCreatedEvent(user, purchasesCount + 1),
     );
 
     return purchase;
