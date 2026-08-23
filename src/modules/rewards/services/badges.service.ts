@@ -27,7 +27,7 @@ export class BadgesService {
   getNextBadge(currentBadge: string | null): Badge | null {
     if (!currentBadge) return rewardBadges[0] ?? null;
     const currentIndex = rewardBadges.findIndex((badge) => badge.name === currentBadge);
-    return rewardBadges[currentIndex + 1] ?? null;
+    return rewardBadges[currentIndex + 1] ?? rewardBadges[currentIndex];
   }
 
   getAchievementsRemainingToUnlockNextBadge(totalUnlocked: number, nextBadge: Badge): number {
