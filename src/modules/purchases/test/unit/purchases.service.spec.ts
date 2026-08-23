@@ -2,27 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { PurchasesService } from '../services/purchases.service';
-import { PurchaseEntity } from '../entities/purchase.entity';
-import { UsersService } from '../../users/services/users.service';
-import { PurchaseCreatedEvent } from '../events/purchase-created.event';
-import { User } from '../../users/entities/user.entity';
+import { PurchasesService } from '../../services/purchases.service';
+import { PurchaseEntity } from '../../entities/purchase.entity';
+import { UsersService } from '../../../users/services/users.service';
+import { PurchaseCreatedEvent } from '../../events/purchase-created.event';
+import { User } from '../../../users/entities/user.entity';
 
 describe('PurchasesService', () => {
   let service: PurchasesService;
 
-  const mockRepository = {
-    count: jest.fn(),
-    save: jest.fn(),
-  };
-
-  const mockUsersService = {
-    findByEmail: jest.fn(),
-  };
-
-  const mockEventEmitter = {
-    emit: jest.fn(),
-  };
+  const mockRepository = { count: jest.fn(), save: jest.fn() };
+  const mockUsersService = { findByEmail: jest.fn() };
+  const mockEventEmitter = { emit: jest.fn() };
 
   const mockUser: Partial<User> = {
     id: 1,
@@ -32,12 +23,7 @@ describe('PurchasesService', () => {
     bankCode: '058',
   };
 
-  const mockPurchase = {
-    id: 1,
-    user: mockUser,
-    amount: 5000,
-    createdAt: new Date(),
-  };
+  const mockPurchase = { id: 1, user: mockUser, amount: 5000, createdAt: new Date() };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -53,8 +39,6 @@ describe('PurchasesService', () => {
   });
 
   afterEach(() => jest.clearAllMocks());
-
-  // ─── createPurchase ───────────────────────────────────────────────────────
 
   describe('createPurchase', () => {
     it('saves the purchase and returns it', async () => {

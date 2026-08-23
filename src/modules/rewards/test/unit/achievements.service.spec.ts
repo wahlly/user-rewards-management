@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AchievementsService } from '../services/achievements.service';
-import { UserAchievementEntity } from '../entities/user-achievement.entity';
-import { User } from '../../users/entities/user.entity';
+import { AchievementsService } from '../../services/achievements.service';
+import { UserAchievementEntity } from '../../entities/user-achievement.entity';
+import { User } from '../../../users/entities/user.entity';
 
 describe('AchievementsService', () => {
   let service: AchievementsService;
@@ -53,7 +53,6 @@ describe('AchievementsService', () => {
   });
 
   // getNextAvailableAchievements
-
   describe('getNextAvailableAchievements', () => {
     it('returns first achievement in each group when nothing is unlocked', () => {
       expect(service.getNextAvailableAchievements([])).toEqual(['first purchase']);
@@ -70,17 +69,13 @@ describe('AchievementsService', () => {
     it('returns empty array when all achievements are unlocked', () => {
       expect(
         service.getNextAvailableAchievements([
-          'first purchase',
-          '5 purchases',
-          '10 purchases',
-          '25 purchases',
-          '50 purchases',
+          'first purchase', '5 purchases', '10 purchases', '25 purchases', '50 purchases',
         ]),
       ).toEqual([]);
     });
   });
 
-  // evaluateAchievements 
+  // evaluateAchievements
   describe('evaluateAchievements', () => {
     it('unlocks nothing when purchase count is 0', async () => {
       mockRepository.find.mockResolvedValue([]);

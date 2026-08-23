@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BadgesService } from '../services/badges.service';
-import { UserBadgeEntity } from '../entities/user-badge.entity';
-import { User } from '../../users/entities/user.entity';
-import { rewardBadges } from '../../../common/constants/badges.constant';
+import { BadgesService } from '../../services/badges.service';
+import { UserBadgeEntity } from '../../entities/user-badge.entity';
+import { User } from '../../../users/entities/user.entity';
+import { rewardBadges } from '../../../../common/constants/badges.constant';
 
 describe('BadgesService', () => {
   let service: BadgesService;
@@ -59,9 +59,7 @@ describe('BadgesService', () => {
     });
 
     it('returns "legend" when user has all badges', async () => {
-      mockRepository.find.mockResolvedValue(
-        rewardBadges.map((b) => ({ badgeName: b.name })),
-      );
+      mockRepository.find.mockResolvedValue(rewardBadges.map((b) => ({ badgeName: b.name })));
       expect(await service.getCurrentBadge(1)).toBe('legend');
     });
   });
@@ -92,13 +90,13 @@ describe('BadgesService', () => {
     });
 
     it('returns correct remaining count mid-progression', () => {
-      const next = service.getNextBadge('novice'); // enthusiast needs 3
+      const next = service.getNextBadge('novice');
       expect(service.getAchievementsRemainingToUnlockNextBadge(1, next)).toBe(2);
       expect(service.getAchievementsRemainingToUnlockNextBadge(2, next)).toBe(1);
     });
 
     it('returns 0 when user has already reached the highest badge', () => {
-      const next = service.getNextBadge('legend'); // returns legend itself
+      const next = service.getNextBadge('legend');
       expect(service.getAchievementsRemainingToUnlockNextBadge(12, next)).toBe(0);
     });
   });
@@ -117,10 +115,7 @@ describe('BadgesService', () => {
       const result = await service.evaluateBadge(mockUser as User, 1);
       expect(result).toBe('novice');
       expect(mockRepository.save).toHaveBeenCalledTimes(1);
-      expect(mockRepository.save).toHaveBeenCalledWith({
-        user: mockUser,
-        badgeName: 'novice',
-      });
+      expect(mockRepository.save).toHaveBeenCalledWith({ user: mockUser, badgeName: 'novice' });
     });
 
     it('does not re-award "novice" when user already has it (idempotency)', async () => {
@@ -152,18 +147,14 @@ describe('BadgesService', () => {
     });
 
     it('awards "legend" when user reaches 12 achievements', async () => {
-      mockRepository.find.mockResolvedValue(
-        rewardBadges.slice(0, 4).map((b) => ({ badgeName: b.name })),
-      );
+      mockRepository.find.mockResolvedValue(rewardBadges.slice(0, 4).map((b) => ({ badgeName: b.name })));
       const result = await service.evaluateBadge(mockUser as User, 12);
       expect(result).toBe('legend');
       expect(mockRepository.save).toHaveBeenCalledTimes(1);
     });
 
     it('returns null when user has all badges and no new threshold crossed', async () => {
-      mockRepository.find.mockResolvedValue(
-        rewardBadges.map((b) => ({ badgeName: b.name })),
-      );
+      mockRepository.find.mockResolvedValue(rewardBadges.map((b) => ({ badgeName: b.name })));
       const result = await service.evaluateBadge(mockUser as User, 12);
       expect(result).toBeNull();
       expect(mockRepository.save).not.toHaveBeenCalled();

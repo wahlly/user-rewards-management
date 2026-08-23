@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
-import { User } from '../entities/user.entity';
-import { AchievementsService } from '../../rewards/services/achievements.service';
-import { BadgesService } from '../../rewards/services/badges.service';
+import { UsersService } from '../../services/users.service';
+import { User } from '../../entities/user.entity';
+import { AchievementsService } from '../../../rewards/services/achievements.service';
+import { BadgesService } from '../../../rewards/services/badges.service';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -49,8 +49,7 @@ describe('UsersService', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  // ─── create ───────────────────────────────────────────────────────────────
-
+  // create
   describe('create', () => {
     const createDto = {
       name: 'John Doe',
@@ -74,19 +73,16 @@ describe('UsersService', () => {
 
     it('throws ConflictException when email already exists', async () => {
       mockUserRepository.findOneBy.mockResolvedValue(mockUser);
-
       await expect(service.create(createDto)).rejects.toThrow(ConflictException);
       expect(mockUserRepository.save).not.toHaveBeenCalled();
     });
   });
 
-  // ─── findByEmail ──────────────────────────────────────────────────────────
-
+  // findByEmail
   describe('findByEmail', () => {
     it('returns the user when found', async () => {
       mockUserRepository.findOneBy.mockResolvedValue(mockUser);
-      const result = await service.findByEmail('john@example.com');
-      expect(result).toEqual(mockUser);
+      expect(await service.findByEmail('john@example.com')).toEqual(mockUser);
     });
 
     it('throws NotFoundException when user does not exist', async () => {
@@ -95,8 +91,7 @@ describe('UsersService', () => {
     });
   });
 
-  // ─── getAchievements ──────────────────────────────────────────────────────
-
+  // getAchievements
   describe('getAchievements', () => {
     it('returns correct shape for a new user with no achievements or badge', async () => {
       mockUserRepository.findOneBy.mockResolvedValue(mockUser);
