@@ -36,12 +36,12 @@ export class UsersController {
 
       res.status(HttpStatus.CREATED).json({
         status: true,
-        message: "User created successfully",
+        message: 'User created successfully',
         statusCode: HttpStatus.CREATED,
         data: result
       })
     } catch (error) {
-      console.error('[UsersController] create-user error:', error);
+      console.log('[UsersController] create-user error: ', error);
       if (error instanceof HttpException) {
         throw new HttpException(error.message, error.getStatus());
       }
@@ -63,12 +63,12 @@ export class UsersController {
 
       res.status(HttpStatus.OK).json({
         status: true,
-        message: "Achievement progress retrieved successfully",
+        message: 'Achievement progress retrieved successfully',
         statusCode: HttpStatus.OK,
         data: result
       })
     } catch (error) {
-      console.error('[UsersController] get-achievements error:', error);
+      console.log('[UsersController] get-achievements error: ', error);
       if (error instanceof HttpException) {
         throw new HttpException(error.message, error.getStatus());
       }

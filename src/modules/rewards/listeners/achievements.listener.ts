@@ -14,17 +14,23 @@ export class AchievementsListener {
 
   @OnEvent('purchase.created')
   async handlePurchaseCreatedEvent(event: PurchaseCreatedEvent): Promise<void> {
-    const newlyUnlockedAchievements = await this.achievementsService.evaluateAchievements(
-      event.user,
-      event.totalPurchaseCount,
-    );
-
-    //TRIGGER 'achievement.unlocked' event if any newly unlocked achievement is found.
-    for (const achievement of newlyUnlockedAchievements) {
-      this.eventEmitter.emit(
-        'achievement.unlocked',
-        new AchievementUnlockedEvent(achievement, event.user),
+    try {
+      const newlyUnlockedAchievements = await this.achievementsService.evaluateAchievements(
+        event.user,
+        event.totalPurchaseCount,
       );
+
+      //TRIGGER 'achievement.unlocked' event if any newly unlocked achievement is found.
+      for (const achievement of newlyUnlockedAchievements) {
+        this.eventEmitter.emit(
+          'achievement.unlocked',
+          new AchievementUnlockedEvent(achievement, event.user),
+        );
+      }
+    }
+    catch (error) {
+      console.log("Error handling event->purchase.created: ", error)
+      throw error;
     }
   }
 }

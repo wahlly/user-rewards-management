@@ -16,14 +16,19 @@ export class BadgesListener {
 
   @OnEvent('achievement.unlocked')
   async handleAchievementUnlockedEvent(event: AchievementUnlockedEvent): Promise<void> {
-    const unlockedAchievements = await this.achievementsService.getUnlockedAchievements(event.user.id);
-    const newlyEarnedBadge = await this.badgesService.evaluateBadge(event.user, unlockedAchievements.length);
+    try {
+      const unlockedAchievements = await this.achievementsService.getUnlockedAchievements(event.user.id);
+      const newlyEarnedBadge = await this.badgesService.evaluateBadge(event.user, unlockedAchievements.length);
 
-    if (newlyEarnedBadge) {
-      this.eventEmitter.emit(
-        'badge.unlocked',
-        new BadgeUnlockedEvent(newlyEarnedBadge, event.user),
-      );
+      if (newlyEarnedBadge) {
+        this.eventEmitter.emit(
+          'badge.unlocked',
+          new BadgeUnlockedEvent(newlyEarnedBadge, event.user),
+        );
+      }
+    } catch (error) {
+      console.log("Error handling event->achievement.unlocked: ", error)
+      throw error;
     }
   }
 }

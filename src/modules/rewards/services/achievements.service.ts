@@ -38,7 +38,7 @@ export class AchievementsService {
         if (totalPurchaseCount >= achievement.threshold && !userUnlockedAchievementSet.has(achievement.name)) {
           await this.userAchievementRepository.save({
             user,
-            achievement: achievement.name
+            achievementName: achievement.name
           });  
           newlyUnlocked.push(achievement.name);
           userUnlockedAchievementSet.add(achievement.name); //ADD TO THE UNLOCKED_ACHIEVEMENT_SET TO PREVENT DOUBLE ENTRY
