@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ApiResponseDto } from '../../../common/dtos/api-response.dto';
 
-export class CreateUserResponseDto {
+export class CreateUserData {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -22,3 +23,5 @@ export class CreateUserResponseDto {
   @ApiProperty({ example: '2026-08-22T16:09:21.190Z' })
   updatedAt: Date;
 }
+
+export class CreateUserResponseDto extends ApiResponseDto(CreateUserData) {}

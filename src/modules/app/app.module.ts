@@ -15,6 +15,7 @@ import { dbDataSource } from '../utils/data.source';
       expandVariables: true,
       cache: true
     }),
+    EventEmitterModule.forRoot({ wildcard: false, global: true }),
     TypeOrmModule.forRoot(dbDataSource),
     UsersModule,
     PurchasesModule,
