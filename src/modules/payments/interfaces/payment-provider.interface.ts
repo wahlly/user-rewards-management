@@ -9,7 +9,6 @@ export interface ITransferResult {
 export interface IPaymentProvider {
   createRecipient(user: User): Promise<string>;
   initiateTransfer(recipientCode: string, amountNaira: number, reason: string): Promise<ITransferResult>;
-  verifyWebhookSignature(payload: string, signature: string): boolean;
 }
 
 export const PAYMENT_PROVIDER = 'PAYMENT_PROVIDER';

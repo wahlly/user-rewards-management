@@ -28,6 +28,7 @@ export class PaymentsService {
         recipientCode
       });
 
+      //my paystack account can't initiate transfers yet, so this fails...
       const result = await this.paymentProvider.initiateTransfer(recipientCode, amount, reason);
 
       await this.transferRepository.update(transfer.id, {
@@ -39,6 +40,7 @@ export class PaymentsService {
       this.logger.log(`[PaymentsService] Transfer of ₦${amount} initiated for ${user.email} — status: ${result.status}`);
     } catch (error: any) {
       this.logger.error(`[PaymentsService] initiateTransfer failed for ${user.email}: ${error.message}`, error.stack);
+      this.logger.error(`provider error response: ${JSON.stringify(error.response?.data)}`);
 
       if (transfer) {
         await this.transferRepository.update(transfer.id, { status: 'failed' }).catch(() => null);
