@@ -22,7 +22,8 @@
     "migration:run": "npm run typeorm -- migration:run",
     "migration:show": "npm run typeorm -- migration:show",
     "migration:revert": "npm run typeorm -- migration:revert",
-    "migration:create": "npm run build && npx typeorm migration:create src/migrations/mysql/$npm_config_name"
+    "migration:create": "npx typeorm migration:create src/migrations/mysql/$npm_config_filename",
+    "migration:run:prod": "npx typeorm migration:run -d dist/modules/utils/data.source.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.6",

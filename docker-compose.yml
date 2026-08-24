@@ -1,0 +1,50 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  db_migration:
+    build: .
+    image: user-rewards-management
+    command: npm run migration:run:prod
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-user_rewards}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    image: user-rewards-management
+    ports:
+      - "${PORT:-7070}:7070"
+    environment:
+      PORT: ${PORT}
+      NODE_ENV: production
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME:-user_rewards}
+      PAYSTACK_BASE_URL: ${PAYSTACK_BASE_URL:-https://api.paystack.co}
+      PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY}
+    depends_on:
+      db_migration:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
