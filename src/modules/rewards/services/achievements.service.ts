@@ -35,6 +35,7 @@ export class AchievementsService {
 
     for (const group of rewardAchievements) {
       for (const achievement of group.achievements) {
+        //CHECK IF ACHIEVEMENT IS CLAIMABLE
         if (totalPurchaseCount >= achievement.threshold && !userUnlockedAchievementSet.has(achievement.name)) {
           await this.userAchievementRepository.save({
             user,

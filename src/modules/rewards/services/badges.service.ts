@@ -20,7 +20,8 @@ export class BadgesService {
     if (!earnedBadges.length) return null;
 
     const earnedBadgesSet = new Set(earnedBadges.map((badge) => badge.badgeName));
-    const current = [...rewardBadges].reverse().find((b) => earnedBadgesSet.has(b.name)); //RETURN HIGHEST BADGE EARNED
+    //RETURN HIGHEST BADGE EARNED
+    const current = [...rewardBadges].reverse().find((b) => earnedBadgesSet.has(b.name));
     return current?.name ?? null;
   }
 
@@ -42,6 +43,7 @@ export class BadgesService {
 
     const earnedRewardBadgesSet = new Set(earnedRewardBadges.map((badge) => badge.badgeName));
 
+    //CHECK IF THERE'S BADGE YET TO BE CLAIMED
     const newBadge = [...rewardBadges]
       .reverse()
       .find((badge) => totalUnlockedCount >= badge.requiredAchievements && !earnedRewardBadgesSet.has(badge.name));

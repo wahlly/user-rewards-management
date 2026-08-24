@@ -26,7 +26,7 @@ An event driven reward management system which achievements are claimed, badges 
 This is built as a single NestJS application split into four feature modules: `users`, `purchases`, `rewards`, and `payments`. This keeps deployment simple while maintaining separation of concerns. This structure/approach also makes it easily extendable to a microservice, if scale ever demands in the future.
 
 ### Event-Driven Architecture
-Inter-module communication happens through in-process events via `@nestjs/event-emitter`. Modules are loosely coupled, making the system easy to extend.
+Inter-module communication happens through in-process events via `@nestjs/event-emitter`. Modules are loosely coupled, making the system easy to extend. Out-of-the-box support for event processing, with a support for later scaling to bullmq + redis is one of several inspirations behind attempting this project with Nestjs framework.
 
 ```
 POST /purchases
@@ -38,6 +38,9 @@ POST /purchases
 
 ### Storage of System Set Achievements & Badges
 Achievement and badge thresholds are declared as typed constant list in `src/common/constants/`. New achievements or badges can be easily appended to this list. Storing these presets in the db would require actions on it from an admin-like platform, to insert, and update the achievements and badges config, which the current scenario could do without.
+
+### Choice of Storage
+MySQL db is used as the primary storage for this project. User claimed achievements and badges are stored on mysql. Selecting a SQL db gives room for future scalability, as JOINs are expected on the users table across the achievements and badges table.
 
 ```ts
 // src/common/constants/achievements.constant.ts
@@ -117,7 +120,7 @@ The compose file starts services in the correct order:
 |---|---|---|
 | `POST` | `/purchases` | Record a purchase for a user |
 
-Full request/response schemas are documented in Swagger at `/api/docs`.
+Kindly refer to the swagger docs for full documentation, including request/response examples `http://localhost:7070/api/docs`.
 
 ---
 
