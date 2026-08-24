@@ -20,9 +20,9 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: ${DB_PORT}
-      DB_USERNAME: ${DB_USERNAME:-root}
-      DB_PASSWORD: ${DB_PASSWORD:-root}
-      DB_NAME: ${DB_NAME:-user_rewards}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     depends_on:
       db:
         condition: service_healthy
@@ -30,7 +30,7 @@ services:
   app:
     image: user-rewards-management
     ports:
-      - "${PORT:-7070}:7070"
+      - "7070:7070"
     environment:
       PORT: ${PORT}
       NODE_ENV: production
