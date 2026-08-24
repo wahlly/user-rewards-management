@@ -149,3 +149,6 @@ npm run test
 - `achievement-unlock.integration.spec.ts` — full event chain from purchase to achievement unlock
 - `badge-unlock.integration.spec.ts` — badge progression, cashback trigger, idempotency
 
+
+### Note
+Kindly note that for transfers to go through successfully, paystack key provided must support transfers for the business.
